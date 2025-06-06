@@ -32,11 +32,9 @@ void PdfGenerator::generatePdf(const QString& filename, const std::vector<Studen
     int yPosition = 50;
     //Для каждого студента из предоставленного вектора информация извлекается и разбивается на строки для последующего вывода на страницу
     for (const Student& student : students) {
-        QString fullName = student.getFullName();
-        QStringList nameParts = fullName.split(' ');
-        QString surname = nameParts.at(0);
-        QString firstName = nameParts.at(1);
-        QString patronymic = nameParts.count() > 2 ? nameParts.at(2) : "";
+        QString surname = student.getLastName();
+        QString firstName = student.getFirstName();
+        QString patronymic = student.getMiddleName();
 
         // Список строк для вывода
         QStringList lines = {

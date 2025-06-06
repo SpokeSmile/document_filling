@@ -20,8 +20,9 @@ public:
     Student(const QString& last, const QString& first, const QString& middle, const QString& ticketNum, const QString& formOfStudy)
         : last_name(last), first_name(first), middle_name(middle), ticketNumber(ticketNum), formOfStudy(formOfStudy)  {};
 
-    // const QString& getName() const { return name; }
-    // void setName(const QString& newName) { name = newName; }
+    const QString& getLastName() const { return last_name; }
+    const QString& getFirstName() const { return first_name; }
+    const QString& getMiddleName() const { return middle_name; }
     
     QString getFullName() const {
         return last_name + " " + first_name + " " + middle_name;
