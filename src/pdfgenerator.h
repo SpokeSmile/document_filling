@@ -18,7 +18,7 @@ public:
      * @param filename Имя файла для сохранения
      * @param students Список отобранных студентов
      */
-    void generatePdf(const QString& filename, const std::vector<Students>& students);
+    void generatePdf(const QString& filename, const std::vector<Student>& students);
 };
 
 #endif // PDFGENERATOR_H

@@ -2,11 +2,13 @@
 #include "ui_mainwindow.h"
 #include "structs.h"
 #include "studentitemwidget.h"
+#include "datamanager.h"
 #include <QListWidget>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QMessageBox>
 #include <QFileDialog>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -29,38 +31,17 @@ MainWindow::MainWindow(QWidget *parent)
 //заполняем группы в QComboBox
 QList<Group> MainWindow::generateGroup()
 {
-    QList<Group> result;
-
-    Group RPO1("РПО 24/1 11/1");
-    Students max("Трудков Максим Сергеевич");
-    max.setTicketNumber("B12345");
-    max.setFormOfStudy("Очная");
-    RPO1.addStudent(max);
-
-    Students pavel("Шуткин Павел Анатольевич");
-    pavel.setTicketNumber("B12346");
-    pavel.setFormOfStudy("Очная");
-    RPO1.addStudent(pavel);
-    result.append(RPO1);
-
-    Group RPO2("РПО 24/2 11/2");
-    Students ten("Тен Максим ЗабылОтчество");
-    ten.setTicketNumber("B12349");
-    ten.setFormOfStudy("Очная");
-    RPO2.addStudent(ten);
-    result.append(RPO2);
-
-    return result;
+    return syncDatabase();
 }
 
 void MainWindow::showStudents(const Group& currentGroup)
 {
     ui->StudentsList->clear();//чистим
 
-    for(const Students& student : currentGroup.getStudents())
+    for(const Student& student : currentGroup.getStudents())
     {
         //создаем новый элемент интерфейса дял каждого студента
-        StudentItemWidget *widget = new StudentItemWidget(student.getName(), ui->StudentsList);
+        StudentItemWidget *widget = new StudentItemWidget(student.getFullName(), ui->StudentsList);
         QListWidgetItem *item = new QListWidgetItem(ui->StudentsList);
         item->setSizeHint(widget->minimumSizeHint());
         ui->StudentsList->setItemWidget(item, widget);
@@ -135,9 +116,9 @@ void MainWindow::onSelectAllClicked()
 
 
 //вектор выделенных студентов который надо передать дял генарции пдф
-std::vector<Students> MainWindow::getSelectedStudents(const Group& group)
+std::vector<Student> MainWindow::getSelectedStudents(const Group& group)
 {
-    std::vector<Students> result;
+    std::vector<Student> result;
     for(const auto& student : group.getStudents()) {
         if(student.isSelected()) {
             result.push_back(student);
@@ -153,7 +134,7 @@ void MainWindow::onGeneratePdfButtonClicked()
     int currentIndex = ui->SearchBox->currentIndex();
     if (currentIndex >= 0 && currentIndex < groups.size()) {
         const Group& currentGroup = groups[currentIndex]; // Текущая группа
-        std::vector<Students> selectedStudents = getSelectedStudents(currentGroup); // Выбранные студенты
+        std::vector<Student> selectedStudents = getSelectedStudents(currentGroup); // Выбранные студенты
 
         // Запрашиваем имя файла
         QString fileName = QFileDialog::getSaveFileName(

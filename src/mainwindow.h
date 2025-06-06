@@ -3,8 +3,9 @@
 
 #include "structs.h"
 #include <QMainWindow>
-#include <qlist.h>
+#include <QList.h>
 #include "pdfgenerator.h"
+#include "datamanager.h"
 //обьясвляем функции связаные с отображением интерфейса и сигналов
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,12 +31,12 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QList<Group> groups;
-
+    QList<Group> groups = syncDatabase();
+    
     void showStudents(const Group& currentGroup);
 
     //получаем выбранных студентов по заданной группе
-    std::vector<Students> getSelectedStudents(const Group& group);
+    std::vector<Student> getSelectedStudents(const Group& group);
 
     std::unique_ptr<PdfGenerator> m_pdfGenerator;//экземлпяр qpdfgenerator
 };

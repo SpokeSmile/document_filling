@@ -10,7 +10,7 @@ PdfGenerator::PdfGenerator(QObject *parent) :
 
 }
 
-void PdfGenerator::generatePdf(const QString& filename, const std::vector<Students>& students)
+void PdfGenerator::generatePdf(const QString& filename, const std::vector<Student>& students)
 {
     QPdfWriter writer(filename);
     writer.setPageSize(QPageSize::A4);
@@ -31,8 +31,8 @@ void PdfGenerator::generatePdf(const QString& filename, const std::vector<Studen
 //Определяется прямоугольник, ограничивающий область, в которой будет происходить рисование текста. Координаты (x=50,y=50)(x=50,y=50) задают положение верхнего левого угла прямоугольника, ширина равна 500 пикселей, высота — 700 пикселей.
     int yPosition = 50;
     //Для каждого студента из предоставленного вектора информация извлекается и разбивается на строки для последующего вывода на страницу
-    for (const Students& student : students) {
-        QString fullName = student.getName();
+    for (const Student& student : students) {
+        QString fullName = student.getFullName();
         QStringList nameParts = fullName.split(' ');
         QString surname = nameParts.at(0);
         QString firstName = nameParts.at(1);

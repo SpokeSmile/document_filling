@@ -32,14 +32,14 @@ set(SOURCES
     src/mainwindow.cpp
     src/studentitemwidget.cpp
     src/pdfgenerator.cpp
-    # src/syncBD.cpp
+    src/datamanager.cpp
 )
 
 set(HEADERS
     src/mainwindow.h
     src/studentitemwidget.h
     src/pdfgenerator.h
-    # src/syncBD.h
+    src/datamanager.h
     src/structs.h
 )
 

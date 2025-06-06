@@ -1,39 +1,3 @@
-// #ifndef STRUCTS_H
-// #define STRUCTS_H
-
-// #include <qvector.h>
-// #include <QMap>
-
-
-// struct Student
-// {
-// private:
-//     QString last_name;
-//     QString first_name;
-//     QString middle_name;
-//     QString group_name;
-//     bool selected;
-//     // QMap<QString, unsigned short> marks;
-
-// public:
-//     Student() = default;
-//     Student(const QString& last, const QString& first, const QString& middle, const QString& group) 
-//         : last_name(last), first_name(first), middle_name(middle), group_name(group), selected(false){}
-
-//     QString getFullName() const { return last_name + " " + first_name + " " + middle_name; }
-//     QString getGroup() const { return group_name; }
- 
- 
-//     // const QString& getName() const { return name; }
-//     // void setName(const QString& newName) { name = newName; }
-//     // const QMap<QString, unsigned short>& getMarks() const { return marks; }
-//     // void setMark(const QString& subject, unsigned short mark) { marks.insert(subject, mark); }
-
-//     bool isSelected() const { return selected; }
-//     void setSelected(bool value) { selected = value; }
-// };
-
-// #endif // STRUCTS_H
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
@@ -41,20 +5,28 @@
 #include <QMap>
 
 
-struct Students
+struct Student
 {
 private:
-    QString name;
+    QString last_name;
+    QString first_name;
+    QString middle_name;
     bool selected;
     QString ticketNumber;
     QString formOfStudy;
 
 public:
-    Students() = default;
-    Students(const QString& n): name(n){};
+    Student() = default;
+    Student(const QString& last, const QString& first, const QString& middle)
+        : last_name(last), first_name(first), middle_name(middle) {};
 
-    const QString& getName() const { return name; }
-    void setName(const QString& newName) { name = newName; }
+    // const QString& getName() const { return name; }
+    // void setName(const QString& newName) { name = newName; }
+    
+    QString getFullName() const {
+        return last_name + " " + first_name + " " + middle_name;
+    }
+
 
 
 
@@ -74,22 +46,24 @@ struct Group
 {
 private:
     QString name;
-    QVector<Students> StudList;
+    QVector<Student> StudList;
 
 
 public:
     Group() = default;
 
-
     Group(const QString& groupName): name(groupName) { }
 
 
-    void addStudent(const Students& student) {
+    void addStudent(const Student& student) {
         StudList.push_back(student);
     }
 
 
-    const QVector<Students>& getStudents() const { return StudList; }
+    const QVector<Student>& getStudents() const { return StudList; }
+    void setStudents(Student st) {
+        StudList.push_back(st);
+    }
 
 
     const QString& getName() const { return name; }
