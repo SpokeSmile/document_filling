@@ -17,8 +17,8 @@ private:
 
 public:
     Student() = default;
-    Student(const QString& last, const QString& first, const QString& middle)
-        : last_name(last), first_name(first), middle_name(middle) {};
+    Student(const QString& last, const QString& first, const QString& middle, const QString& ticketNum, const QString& formOfStudy)
+        : last_name(last), first_name(first), middle_name(middle), ticketNumber(ticketNum), formOfStudy(formOfStudy)  {};
 
     // const QString& getName() const { return name; }
     // void setName(const QString& newName) { name = newName; }

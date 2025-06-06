@@ -35,20 +35,37 @@ QList<Group> syncDatabase() {
 
             // Получаем студентов этой группы
             pqxx::result students_request = txn.exec(
-                pqxx::zview{
-                    "SELECT last_name, first_name, middle_name FROM \"Students\" WHERE group_name = $1 ORDER BY last_name, first_name;"
-                },
+                pqxx::zview{R"(
+                    SELECT 
+                        s.last_name,
+                        s.first_name,
+                        s.middle_name,
+                        s.group_name,
+                        t.ticket_number,
+                        t.education_form,
+                        t.order_date,
+                        t.order_number,
+                        t.issue_date,
+                        t.valid_until
+                    FROM "Students" s
+                    JOIN "StudentTicket" t ON s.id = t.students_id
+                    WHERE s.group_name = $1
+                    ORDER BY s.last_name, s.first_name;
+                )"},
                 pqxx::params{group_name.toStdString()}
             );
 
+            // Добовляем студентов в QList<Group>
             for (const pqxx::row& student_row : students_request) {
                 Student s(
                     student_row["last_name"].c_str(),
                     student_row["first_name"].c_str(),
-                    student_row["middle_name"].c_str()
+                    student_row["middle_name"].is_null() ? "" : student_row["middle_name"].c_str(),
+                    student_row["ticket_number"].c_str(),
+                    student_row["education_form"].c_str()
                 );
 
-                group.setStudents(s);
+                group.addStudent(s);
             }
 
             gr.append(group);

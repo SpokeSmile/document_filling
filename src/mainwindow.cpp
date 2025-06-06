@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->StudentsList->setSelectionMode(QAbstractItemView::NoSelection);
 
-    groups = generateGroup();
 //заполняем группы в QComboBox
     for(auto el : groups) {
         ui->SearchBox->addItem(el.getName());
@@ -27,11 +26,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->SearchBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onSearchBoxCurrentIndexChanged(int)));
     connect(ui->generatePdfButton, &QPushButton::clicked, this, &MainWindow::onGeneratePdfButtonClicked);
 
-}
-//заполняем группы в QComboBox
-QList<Group> MainWindow::generateGroup()
-{
-    return syncDatabase();
 }
 
 void MainWindow::showStudents(const Group& currentGroup)
@@ -56,35 +50,9 @@ void MainWindow::onSearchBoxCurrentIndexChanged(int index)
     }
 }
 
+
+// Функция выборов всех из списка
 void MainWindow::onSelectAllClicked()
-{
-    int currentIndex = ui->SearchBox->currentIndex();
-    if (currentIndex >= 0 && currentIndex < groups.size()) {
-        auto group = groups[currentIndex];
-        auto students = group.getStudents();
-
-        bool allUnchecked = true;
-
-        for(int i = 0; i < ui->StudentsList->count(); i++) {
-            auto widget = dynamic_cast<StudentItemWidget*>(ui->StudentsList->itemWidget(ui->StudentsList->item(i)));
-
-            if (!widget || !(widget->findChild<QCheckBox*>())) continue;
-
-            QCheckBox* checkbox = widget->findChild<QCheckBox*>();
-            bool isChecked = checkbox->isChecked();
-
-            if(isChecked) {
-                allUnchecked = false;
-            }
-
-            bool newState = !allUnchecked;
-            checkbox->setChecked(newState);
-            students[i].setSelected(newState);
-        }
-    }
-}
-//переписать функцию обработки комбо боксов и кнопки выбраить всех
-/*void MainWindow::onSelectAllClicked()
 {
     bool anySelected = false;
     int currentIndex = ui->SearchBox->currentIndex();
@@ -112,7 +80,7 @@ void MainWindow::onSelectAllClicked()
         }
     }
 }
-*/
+
 
 
 //вектор выделенных студентов который надо передать дял генарции пдф
