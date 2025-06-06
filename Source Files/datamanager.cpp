@@ -5,7 +5,7 @@
 #include "mainwindow.h"
 
 
-QList<Group> syncDatabase() {
+QList<Group> loadGroupsFromDatabase() {
     
     QVector<Student> stud;
     QList<Group> gr;

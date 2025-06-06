@@ -28,24 +28,25 @@ endif()
 
 # --- Исходники ---
 set(SOURCES
-    src/main.cpp
-    src/mainwindow.cpp
-    src/studentitemwidget.cpp
-    src/pdfgenerator.cpp
-    src/datamanager.cpp
+    "Source Files/main.cpp"
+    "Source Files/mainwindow.cpp"
+    "Source Files/studentitemwidget.cpp"
+    "Source Files/pdfgenerator.cpp"
+    "Source Files/datamanager.cpp"
 )
 
 set(HEADERS
-    src/mainwindow.h
-    src/studentitemwidget.h
-    src/pdfgenerator.h
-    src/datamanager.h
-    src/structs.h
+    "Header Files/mainwindow.h"
+    "Header Files/studentitemwidget.h"
+    "Header Files/pdfgenerator.h"
+    "Header Files/datamanager.h"
+    "Header Files/structs.h"
 )
 
-set(UIS
-    src/mainwindow.ui
-)
+# set(UIS
+#     ./mainwindow.ui
+# )
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}")
 
 # --- Локализация ---
 qt_add_translation(TRANSLATION_SRCS i18n/application1_ru_RU.ts)
@@ -59,7 +60,8 @@ target_link_libraries(app PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)
 # --- Подключаемые директории ---
 target_include_directories(app PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/Source\ Files
+    ${CMAKE_CURRENT_SOURCE_DIR}/Header\ Files
 )
 
 # --- Пути и библиотеки PostgreSQL / libpq ---

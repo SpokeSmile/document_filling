@@ -1,9 +1,9 @@
 #ifndef SYNCBD_H
 #define SYNCBD_H
 
-#include <structs.h>
+#include "structs.h"
 #include <QVector>
 
-QList<Group> syncDatabase();
+QList<Group> loadGroupsFromDatabase();
 
 #endif // SYNCBD_H

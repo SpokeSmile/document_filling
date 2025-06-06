@@ -31,7 +31,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QList<Group> groups = syncDatabase();
+    QList<Group> groups = loadGroupsFromDatabase();
     
     void showStudents(const Group& currentGroup);
 
