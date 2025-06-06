@@ -22,7 +22,6 @@ QList<Group> syncDatabase() {
 
         pqxx::work txn(dataBase);
 
-       QVector<Group> gr;
 
         pqxx::result groups = txn.exec(
             "SELECT DISTINCT group_name FROM \"Students\" ORDER BY group_name;"
@@ -55,11 +54,11 @@ QList<Group> syncDatabase() {
             gr.append(group);
         }
         
-
         txn.commit();
     } catch (const std::exception &e) {
         std::cerr << "Ошибка: " << e.what() << std::endl;
     }
+    
     
     return gr;
 }
