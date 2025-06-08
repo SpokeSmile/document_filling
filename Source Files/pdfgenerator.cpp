@@ -21,8 +21,8 @@ void PdfGenerator::generatePdf(const QString &filename, const std::vector<Studen
     painter.setPen(Qt::black);
 
     // Шрифты для шапки и тела документа
-    QFont smallRegularFont("Arial", 10);                        // Мелкий шрифт для шапки
-    QFont boldSmallFont("Arial", 12, QFont::Bold);              // Жирный мелкий шрифт для названия колледжа
+    QFont smallRegularFont("Times New Roman", 9);                        // Мелкий шрифт для шапки
+    QFont boldSmallFont("Times New Roman", 9, QFont::Bold);              // Жирный мелкий шрифт для названия колледжа
 
     // Размер страницы
     double pageWidth = writer.width();                           // Ширина страницы в пикселях
@@ -32,42 +32,44 @@ void PdfGenerator::generatePdf(const QString &filename, const std::vector<Studen
     constexpr double mmToPxFactor = 72.0 / 25.4;                // коэффициент конвертации мм в пиксели
     double maxContentWidth = 95 * mmToPxFactor;                 // Ограничиваем информацию по ширине (≈ 270 px)
 
-    // Ограничительные прямоугольники для шапки (сдвинутые по центру)
-    QRectF topTitleRect((pageWidth - maxContentWidth)/2, 50, maxContentWidth, 20);
-    QRectF middleTitleRect((pageWidth - maxContentWidth)/2, 70, maxContentWidth, 20);
-    QRectF bottomTitleRect((pageWidth - maxContentWidth)/2, 90, maxContentWidth, 20);
-
-   
+    
+    
     // Основной блок документа (начиная с отметки 150 пикселей по оси Y)
     int yPosition = 150;
-
+    
     for (const Student &student : students) {
-         // Шапка документа
+        // Переносим шапку сюда, чтобы рисовать её для каждого студента отдельно
+        // Ограничительные прямоугольники для шапки (сдвинутые по центру)
+        QRectF topTitleRect((pageWidth - maxContentWidth)/2, yPosition, maxContentWidth, 30);
+        QRectF middleTitleRect((pageWidth - maxContentWidth)/2, yPosition + 20, maxContentWidth, 30);
+        QRectF bottomTitleRect((pageWidth - maxContentWidth)/2, yPosition + 40, maxContentWidth, 30);
+        // Шапка документа
         QString topLine = "АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОРГАНИЗАЦИЯ";
         QString middleLine = "ПРОФЕССИОНАЛЬНАЯ ОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ";
         QString bottomLine = "МОСКОВСКИЙ МЕЖДУНАРОДНЫЙ КОЛЛЕДЖ ЦИФРОВЫХ ТЕХНОЛОГИЙ \"АКАДЕМИЯ ТОП\"";
 
-        // Ставим мелкие символы для шапки
+         // Рисуем шапку
         painter.setFont(smallRegularFont);
-        painter.drawText(topTitleRect, Qt::AlignHCenter, topLine);
-        painter.drawText(middleTitleRect, Qt::AlignHCenter, middleLine);
+        painter.drawText(topTitleRect, Qt::AlignHCenter | Qt::AlignTop, topLine);
+        painter.drawText(middleTitleRect, Qt::AlignHCenter | Qt::AlignTop, middleLine);
 
         painter.setFont(boldSmallFont);
-        painter.drawText(bottomTitleRect, Qt::AlignHCenter, bottomLine);
+        painter.drawText(bottomTitleRect, Qt::AlignHCenter | Qt::AlignTop, bottomLine);
 
-        // Данные студента
+        // Основная информация о студенте начинается немного ниже шапки
+        yPosition += 60; // Смещаем позицию вниз, чтобы освободить место для шапки
+
         QString ticketNum = QString("%1").arg(student.getTicketNumber());
         QString surname = student.getLastName();
         QString firstName = student.getFirstName();
         QString patronymic = student.getMiddleName();
-
         // Используем два разных шрифта
-        QFont boldBodyFont("Arial", 12, QFont::Bold);                       // Жирный шрифт
-        QFont bodyFont("Arial", 12);                                        // Обычный шрифт
+        QFont boldBodyFont("Times New Roman", 10, QFont::Bold);                       // Жирный шрифт
+        QFont bodyFont("Times New Roman", 10);                                        // Обычный шрифт
 
         // Зона для вывода информации справа (оставляя слева место для фотографии)
         qreal textStartX = pageWidth - maxContentWidth - 50;                // Начало координат справа
-        QRectF contentRect(textStartX, yPosition, maxContentWidth, 200);    // Зона вывода (строго 95 мм ≈ 270px)
+        QRectF contentRect(textStartX, yPosition+10, maxContentWidth, 200);    // Зона вывода (строго 95 мм ≈ 270px)
 
         // Выводим данные студента
         painter.setFont(boldBodyFont);
