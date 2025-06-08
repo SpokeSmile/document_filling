@@ -1,8 +1,23 @@
+#include <fstream>
 #include <iostream>
 #include <pqxx/pqxx>
 #include "datamanager.h"
 #include "structs.h"
 #include "mainwindow.h"
+#include <QCoreApplication>
+#include <QDir>
+
+std::string readConnectionString() {
+    QString path = QCoreApplication::applicationDirPath() + "/db.conf";
+    std::ifstream file(path.toStdString());
+    if (!file.is_open()) {
+        throw std::runtime_error("Не удалось открыть файл: " + path.toStdString());
+    }
+
+    std::string connStr;
+    std::getline(file, connStr);
+    return connStr;
+}
 
 
 QList<Group> loadGroupsFromDatabase() {
@@ -13,7 +28,7 @@ QList<Group> loadGroupsFromDatabase() {
 
 
     try {
-        pqxx::connection dataBase("dbname=ITTOP user=postgres password=1 host=localhost port=5432");
+        pqxx::connection dataBase(readConnectionString());
         
         if (!dataBase.is_open()) {
             std::cerr << "Не удалось подключиться к базе данных\n";

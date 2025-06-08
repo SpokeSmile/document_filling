@@ -8,4 +8,5 @@
 # CMake files
 /build/
 
+# SQL file
 dataBase.txt
