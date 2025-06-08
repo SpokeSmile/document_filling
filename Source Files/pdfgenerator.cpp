@@ -37,23 +37,24 @@ void PdfGenerator::generatePdf(const QString &filename, const std::vector<Studen
     QRectF middleTitleRect((pageWidth - maxContentWidth)/2, 70, maxContentWidth, 20);
     QRectF bottomTitleRect((pageWidth - maxContentWidth)/2, 90, maxContentWidth, 20);
 
-    // Шапка документа
-    QString topLine = "АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОРГАНИЗАЦИЯ";
-    QString middleLine = "ПРОФЕССИОНАЛЬНАЯ ОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ";
-    QString bottomLine = "МОСКОВСКИЙ МЕЖДУНАРОДНЫЙ КОЛЛЕДЖ ЦИФРОВЫХ ТЕХНОЛОГИЙ \"АКАДЕМИЯ ТОП\"";
-
-    // Ставим мелкие символы для шапки
-    painter.setFont(smallRegularFont);
-    painter.drawText(topTitleRect, Qt::AlignHCenter, topLine);
-    painter.drawText(middleTitleRect, Qt::AlignHCenter, middleLine);
-
-    painter.setFont(boldSmallFont);
-    painter.drawText(bottomTitleRect, Qt::AlignHCenter, bottomLine);
-
+   
     // Основной блок документа (начиная с отметки 150 пикселей по оси Y)
     int yPosition = 150;
 
     for (const Student &student : students) {
+         // Шапка документа
+        QString topLine = "АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОРГАНИЗАЦИЯ";
+        QString middleLine = "ПРОФЕССИОНАЛЬНАЯ ОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ";
+        QString bottomLine = "МОСКОВСКИЙ МЕЖДУНАРОДНЫЙ КОЛЛЕДЖ ЦИФРОВЫХ ТЕХНОЛОГИЙ \"АКАДЕМИЯ ТОП\"";
+
+        // Ставим мелкие символы для шапки
+        painter.setFont(smallRegularFont);
+        painter.drawText(topTitleRect, Qt::AlignHCenter, topLine);
+        painter.drawText(middleTitleRect, Qt::AlignHCenter, middleLine);
+
+        painter.setFont(boldSmallFont);
+        painter.drawText(bottomTitleRect, Qt::AlignHCenter, bottomLine);
+
         // Данные студента
         QString ticketNum = QString("%1").arg(student.getTicketNumber());
         QString surname = student.getLastName();
