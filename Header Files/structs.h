@@ -11,7 +11,7 @@ private:
     QString last_name;
     QString first_name;
     QString middle_name;
-    bool selected;
+    bool selected = false;
     QString ticketNumber;
     QString formOfStudy;
 
@@ -61,11 +61,8 @@ public:
     }
 
 
-    const QVector<Student>& getStudents() const { return StudList; }
-    void setStudents(Student st) {
-        StudList.push_back(st);
-    }
-
+    QVector<Student>& getStudents() { return StudList; }
+    
 
     const QString& getName() const { return name; }
     void setName(const QString& newName) { name = newName; }

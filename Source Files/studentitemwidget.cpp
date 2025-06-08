@@ -13,7 +13,9 @@ StudentItemWidget::StudentItemWidget(QString studentName, QWidget *parent)
 
     setLayout(layout);
 //сигнал stateChanged от чекбокса к лямбде-функции, которая генерирует собственный сигнал stateChanged(bool) при изменении состояния чекбокса.
-    QObject::connect(m_checkbox, &QCheckBox::checkStateChanged, [&](int state){
-        emit stateChanged(state == Qt::Checked);
-    });
+     connect(m_checkbox, &QCheckBox::checkStateChanged, this, &StudentItemWidget::onCheckboxStateChanged);
+}
+void StudentItemWidget::onCheckboxStateChanged(int state)
+{
+    emit selectionChanged(state == Qt::Checked);
 }

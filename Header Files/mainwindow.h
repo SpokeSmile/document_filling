@@ -33,10 +33,10 @@ private:
     Ui::MainWindow *ui;
     QList<Group> groups = loadGroupsFromDatabase();
     
-    void showStudents(const Group& currentGroup);
+    void showStudents(Group& currentGroup);
 
     //получаем выбранных студентов по заданной группе
-    std::vector<Student> getSelectedStudents(const Group& group);
+    std::vector<Student> getSelectedStudents(Group& group);
 
     std::unique_ptr<PdfGenerator> m_pdfGenerator;//экземлпяр qpdfgenerator
 };

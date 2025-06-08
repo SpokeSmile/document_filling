@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <iostream>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -25,27 +26,35 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->selectAllButton, &QPushButton::clicked, this, &MainWindow::onSelectAllClicked);
     connect(ui->SearchBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onSearchBoxCurrentIndexChanged(int)));
     connect(ui->generatePdfButton, &QPushButton::clicked, this, &MainWindow::onGeneratePdfButtonClicked);
+    
 
 }
 
-void MainWindow::showStudents(const Group& currentGroup)
+void MainWindow::showStudents(Group& currentGroup)
 {
-    ui->StudentsList->clear();//чистим
+    ui->StudentsList->clear();
 
-    for(const Student& student : currentGroup.getStudents())
+    auto& students = currentGroup.getStudents();
+    for (int i = 0; i < students.size(); ++i)
     {
-        //создаем новый элемент интерфейса дял каждого студента
+        Student& student = students[i];
         StudentItemWidget *widget = new StudentItemWidget(student.getFullName(), ui->StudentsList);
         QListWidgetItem *item = new QListWidgetItem(ui->StudentsList);
         item->setSizeHint(widget->minimumSizeHint());
         ui->StudentsList->setItemWidget(item, widget);
+
+        // Привязываем изменение чекбокса к setSelected студента
+        connect(widget, &StudentItemWidget::selectionChanged, this, [&, i](bool selected){
+            students[i].setSelected(selected);
+        });
     }
 }
+
 //отображение группы в QComboBox
 void MainWindow::onSearchBoxCurrentIndexChanged(int index)
 {
     if (index >= 0 && index < groups.size()) {
-        const Group& selectedGroup = groups[index];
+        Group& selectedGroup = groups[index];
         showStudents(selectedGroup);
     }
 }
@@ -57,8 +66,8 @@ void MainWindow::onSelectAllClicked()
     bool anySelected = false;
     int currentIndex = ui->SearchBox->currentIndex();
     if (currentIndex >= 0 && currentIndex < groups.size()) {
-        auto group = groups[currentIndex];
-        auto students = group.getStudents();
+        auto& group = groups[currentIndex];
+        auto& students = group.getStudents();
 
         // Проверяем наличие выделенных элементов
         for(int i = 0; i < ui->StudentsList->count(); ++i) {
@@ -84,10 +93,10 @@ void MainWindow::onSelectAllClicked()
 
 
 //вектор выделенных студентов который надо передать дял генарции пдф
-std::vector<Student> MainWindow::getSelectedStudents(const Group& group)
+std::vector<Student> MainWindow::getSelectedStudents(Group& group)
 {
     std::vector<Student> result;
-    for(const auto& student : group.getStudents()) {
+    for(auto& student : group.getStudents()) {
         if(student.isSelected()) {
             result.push_back(student);
 
@@ -101,7 +110,7 @@ void MainWindow::onGeneratePdfButtonClicked()
     // Получаем индекс текущего выбранного группы
     int currentIndex = ui->SearchBox->currentIndex();
     if (currentIndex >= 0 && currentIndex < groups.size()) {
-        const Group& currentGroup = groups[currentIndex]; // Текущая группа
+        Group& currentGroup = groups[currentIndex]; // Текущая группа
         std::vector<Student> selectedStudents = getSelectedStudents(currentGroup); // Выбранные студенты
 
         // Запрашиваем имя файла

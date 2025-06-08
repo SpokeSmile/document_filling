@@ -13,11 +13,14 @@ public:
     explicit StudentItemWidget(QString studentName, QWidget *parent = nullptr);
 
 signals:
-    void stateChanged(bool isSelected);
+    void selectionChanged(bool selected);
 
 private:
     QLabel *m_label;
     QCheckBox *m_checkbox;
+private slots:
+    void onCheckboxStateChanged(int state);
+
 };
 
 #endif // STUDENTITEMWIDGET_H
