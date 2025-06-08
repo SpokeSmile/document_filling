@@ -51,8 +51,11 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}")
 # --- Локализация ---
 qt_add_translation(TRANSLATION_SRCS i18n/application1_ru_RU.ts)
 
+# --- Добавляем ресурсы ---
+qt_add_resources(RESOURCES_RCC resources.qrc)
+
 # --- Исполняемый файл ---
-add_executable(app ${SOURCES} ${HEADERS} ${UIS})
+add_executable(app ${SOURCES} ${HEADERS} ${UIS} ${RESOURCES_RCC})
 
 # --- Qt библиотеки ---
 target_link_libraries(app PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets)

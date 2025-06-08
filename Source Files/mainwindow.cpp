@@ -8,7 +8,6 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <iostream>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -16,6 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->generatePdfButton->setIconSize(QSize(38, 38));
+    ui->generatePdfButton->setFixedSize(QSize(125,50));
+    ui->generatePdfButton->setStyleSheet("border-radius: 10px; background-color: #f5e1bf;");
+
+    ui->selectAllButton->setFixedSize(QSize(150,50));
+    ui->selectAllButton->setStyleSheet("color: #000; border-radius: 10px; background-color: #f5e1bf; font-weight: bold; font-family: 'Arial';");
+    ui->SearchBox->setPlaceholderText("Поиск групп...");
+
     ui->StudentsList->setSelectionMode(QAbstractItemView::NoSelection);
 
 //заполняем группы в QComboBox
@@ -26,8 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->selectAllButton, &QPushButton::clicked, this, &MainWindow::onSelectAllClicked);
     connect(ui->SearchBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onSearchBoxCurrentIndexChanged(int)));
     connect(ui->generatePdfButton, &QPushButton::clicked, this, &MainWindow::onGeneratePdfButtonClicked);
-    
-
 }
 
 void MainWindow::showStudents(Group& currentGroup)
