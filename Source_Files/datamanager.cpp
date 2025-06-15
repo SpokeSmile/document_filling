@@ -22,8 +22,6 @@ QList<Group> loadGroupsFromDatabase() {
     
     QList<Group> gr;
 
-
-
     try {
         pqxx::connection dataBase(readConnectionString());
         
@@ -72,7 +70,11 @@ QList<Group> loadGroupsFromDatabase() {
                     student_row["first_name"].c_str(),
                     student_row["middle_name"].is_null() ? "" : student_row["middle_name"].c_str(),
                     student_row["ticket_number"].c_str(),
-                    student_row["education_form"].c_str()
+                    student_row["education_form"].c_str(),
+                    student_row["order_date"].c_str(),
+                    student_row["order_number"].c_str(),
+                    student_row["issue_date"].c_str(),
+                    student_row["valid_until"].c_str()
                 );
 
                 group.addStudent(s);

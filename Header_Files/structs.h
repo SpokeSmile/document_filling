@@ -11,14 +11,18 @@ private:
     QString last_name;
     QString first_name;
     QString middle_name;
-    bool selected = false;
     QString ticketNumber;
-    QString formOfStudy;
-
+    QString educationForm;
+    QString orderDate;
+    QString orderNumber;
+    QString issueDate;
+    QString validUntil;
+    bool selected = false;
+    
 public:
     Student() = default;
-    Student(const QString& last, const QString& first, const QString& middle, const QString& ticketNum, const QString& formOfStudy)
-        : last_name(last), first_name(first), middle_name(middle), ticketNumber(ticketNum), formOfStudy(formOfStudy)  {};
+    Student(const QString& last, const QString& first, const QString& middle, const QString& ticketNum, const QString& educationForm, const QString& orderDate, const QString& orderNumber, const QString& issueDate, const QString& validUntil)
+        : last_name(last), first_name(first), middle_name(middle), ticketNumber(ticketNum), educationForm(educationForm), orderDate(orderDate), orderNumber(orderNumber), issueDate(issueDate), validUntil(validUntil)  {};
 
     const QString& getLastName() const { return last_name; }
     const QString& getFirstName() const { return first_name; }
@@ -30,13 +34,14 @@ public:
 
 
     bool isSelected() const { return selected; }
-    void setSelected(bool value) { selected = value; }
+    void setSelected(bool selectState) { selected = selectState; }
 
-    void setTicketNumber(const QString& number) { ticketNumber = number; }
     QString getTicketNumber() const { return ticketNumber; }
-
-    void setFormOfStudy(const QString& form) { formOfStudy = form; }
-    QString getFormOfStudy() const { return formOfStudy; }
+    QString getFormOfStudy() const { return educationForm; }
+    QString getOrderDate() const { return orderDate; }
+    QString getOrderNumber() const { return orderNumber; }
+    QString getIssueDate() const { return issueDate; }
+    QString getValidUntil() const { return validUntil; }
 };
 //----------------
 

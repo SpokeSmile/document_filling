@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 project(App LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -11,19 +11,19 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets LinguistTools)
 
 # --- Исходники ---
 set(SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source Files/main.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source Files/mainwindow.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source Files/studentitemwidget.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source Files/pdfgenerator.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source Files/datamanager.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source_Files/main.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source_Files/mainwindow.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source_Files/studentitemwidget.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source_Files/pdfgenerator.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source_Files/datamanager.cpp"
 )
 
 set(HEADERS
-    "${CMAKE_CURRENT_SOURCE_DIR}/Header Files/mainwindow.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Header Files/studentitemwidget.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Header Files/pdfgenerator.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Header Files/datamanager.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Header Files/structs.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Header_Files/mainwindow.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Header_Files/studentitemwidget.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Header_Files/pdfgenerator.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Header_Files/datamanager.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Header_Files/structs.h"
 )
 
 # set(UIS
@@ -68,8 +68,8 @@ find_library(PQXX_LIBRARY NAMES pqxx PATHS ${PQXX_LIBRARY_DIR_HINTS} REQUIRED)
 # --- Qt библиотеки и PostgreSQL / libpq ---
 target_include_directories(app PRIVATE
     ${CMAKE_CURRENT_BINARY_DIR}
-    "${CMAKE_CURRENT_SOURCE_DIR}/Source Files"
-    "${CMAKE_CURRENT_SOURCE_DIR}/Header Files"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source_Files"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Header_Files"
     ${PostgreSQL_INCLUDE_DIR}
     ${PQXX_INCLUDE_DIR}
 )
