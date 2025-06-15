@@ -34,15 +34,21 @@ void PdfGenerator::generatePdf(const QString &filename, const std::vector<Studen
 
     
     
-    // Основной блок документа (начиная с отметки 150 пикселей по оси Y)
-    int yPosition = 150;
-    
+    int yPosition = 0;
+    int xPosition = 0;
+    constexpr int spaceNeeded = 250;
+    constexpr int bottomMargin = 50;
     for (const Student &student : students) {
+        // Проверка перехода на новую страницу перед отрисовкой студента
+        if (yPosition + spaceNeeded > pageHeight - bottomMargin) {
+            writer.newPage();
+            yPosition = 150;
+        }
         // Переносим шапку сюда, чтобы рисовать её для каждого студента отдельно
         // Ограничительные прямоугольники для шапки (сдвинутые по центру)
-        QRectF topTitleRect((pageWidth - maxContentWidth)/2, yPosition, maxContentWidth, 30);
-        QRectF middleTitleRect((pageWidth - maxContentWidth)/2, yPosition + 20, maxContentWidth, 30);
-        QRectF bottomTitleRect((pageWidth - maxContentWidth)/2, yPosition + 40, maxContentWidth, 30);
+        QRectF topTitleRect(xPosition, yPosition, maxContentWidth, 30);
+        QRectF middleTitleRect(xPosition, yPosition + 20, maxContentWidth, 30);
+        QRectF bottomTitleRect(xPosition, yPosition + 40, maxContentWidth, 30);
         // Шапка документа
         QString topLine = "АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОРГАНИЗАЦИЯ";
         QString middleLine = "ПРОФЕССИОНАЛЬНАЯ ОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ";

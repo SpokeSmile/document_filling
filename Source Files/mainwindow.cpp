@@ -18,13 +18,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->generatePdfButton->setIconSize(QSize(38, 38));
     ui->generatePdfButton->setFixedSize(QSize(125,50));
-    ui->generatePdfButton->setStyleSheet("border-radius: 10px; background-color: #f5e1bf;");
+    ui->generatePdfButton->setStyleSheet("border-radius: 10px; background-color: #f5e1bf;;");
 
     ui->selectAllButton->setFixedSize(QSize(150,50));
-    ui->selectAllButton->setStyleSheet("color: #000; border-radius: 10px; background-color: #f5e1bf; font-weight: bold; font-family: 'Arial';");
+    ui->selectAllButton->setStyleSheet("color: #000; border-radius: 10px; background-color: #f5e1bf;; font-weight: bold; font-family: 'Arial';");
     ui->SearchBox->setPlaceholderText("Поиск групп...");
 
     ui->StudentsList->setSelectionMode(QAbstractItemView::NoSelection);
+    
 
 //заполняем группы в QComboBox
     for(auto el : groups) {

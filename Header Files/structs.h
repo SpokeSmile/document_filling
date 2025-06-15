@@ -29,9 +29,6 @@ public:
     }
 
 
-
-
-
     bool isSelected() const { return selected; }
     void setSelected(bool value) { selected = value; }
 

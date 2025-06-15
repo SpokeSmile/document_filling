@@ -7,6 +7,7 @@ StudentItemWidget::StudentItemWidget(QString studentName, QWidget *parent)
     //Виджет, отображающий имя студента
     m_label = new QLabel(studentName, this);
     m_checkbox = new QCheckBox(this);
+    // Увелечение шрифта под студентов
     QFont font;
     font.setPointSize(16);
     m_label->setFont(font);

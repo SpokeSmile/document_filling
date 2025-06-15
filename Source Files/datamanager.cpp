@@ -1,9 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <pqxx/pqxx>
-#include "datamanager.h"
 #include "structs.h"
-#include "mainwindow.h"
 #include <QCoreApplication>
 #include <QDir>
 
@@ -22,7 +20,6 @@ std::string readConnectionString() {
 
 QList<Group> loadGroupsFromDatabase() {
     
-    QVector<Student> stud;
     QList<Group> gr;
 
 
@@ -49,26 +46,24 @@ QList<Group> loadGroupsFromDatabase() {
             Group group(group_name);
 
             // Получаем студентов этой группы
-            pqxx::result students_request = txn.exec(
-                pqxx::zview{R"(
-                    SELECT 
-                        s.last_name,
-                        s.first_name,
-                        s.middle_name,
-                        s.group_name,
-                        t.ticket_number,
-                        t.education_form,
-                        t.order_date,
-                        t.order_number,
-                        t.issue_date,
-                        t.valid_until
-                    FROM "Students" s
-                    JOIN "StudentTicket" t ON s.id = t.students_id
-                    WHERE s.group_name = $1
-                    ORDER BY s.last_name, s.first_name;
-                )"},
-                pqxx::params{group_name.toStdString()}
-            );
+            std::string query = R"(
+                SELECT 
+                    s.last_name,
+                    s.first_name,
+                    s.middle_name,
+                    s.group_name,
+                    t.ticket_number,
+                    t.education_form,
+                    t.order_date,
+                    t.order_number,
+                    t.issue_date,
+                    t.valid_until
+                FROM "Students" s
+                JOIN "StudentTicket" t ON s.id = t.students_id
+                WHERE s.group_name = $1
+                ORDER BY s.last_name, s.first_name;
+            )";
+            pqxx::result students_request = txn.exec(pqxx::zview{query}, pqxx::params{group_name.toStdString()});
 
             // Добовляем студентов в QList<Group>
             for (const pqxx::row& student_row : students_request) {
